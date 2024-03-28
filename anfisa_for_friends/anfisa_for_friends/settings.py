@@ -78,8 +78,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-LANGUAGE_CODE = 'en-us'
+# Переводим на русский!
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 
