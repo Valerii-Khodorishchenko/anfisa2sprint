@@ -12,8 +12,11 @@ class Category(PublishedModel):
     )
 
     class Meta:
-        verbose_name = 'категория'
+        verbose_name = 'текущую категорию'
         verbose_name_plural = 'Каетегории'
+
+    def __str__(self):
+        return self.title
 
 
 class Topping(PublishedModel):
@@ -21,16 +24,25 @@ class Topping(PublishedModel):
     slug = models.SlugField(max_length=64, unique=True, verbose_name='Слаг')
 
     class Meta:
-        verbose_name = 'добавка'
+        verbose_name = 'экземпляр добавки'
         verbose_name_plural = 'Добавки'
+
+    def __str__(self):
+        return self.title
 
 
 class Wrapper(PublishedModel):
-    title = models.CharField(max_length=256, verbose_name='Название')
+    title = models.CharField(
+        max_length=256,
+        verbose_name='Название',
+        help_text='Уникальное название обёрткиб не более 256 символов')
 
     class Meta:
-        verbose_name = 'обёртка'
+        verbose_name = 'экземпляр обёртки'
         verbose_name_plural = 'Обёртки'
+
+    def __str__(self):
+        return self.title
 
 
 class IceCream(PublishedModel):
@@ -40,6 +52,7 @@ class IceCream(PublishedModel):
         Wrapper,
         on_delete=models.SET_NULL,
         related_name='ice_cream',
+        verbose_name='Обёртка',
         null=True,
         blank=True,
     )
@@ -47,10 +60,18 @@ class IceCream(PublishedModel):
         Category,
         on_delete=models.CASCADE,
         related_name='ice_creams',
+        verbose_name='Категория',
     )
-    toppings = models.ManyToManyField(Topping)
+    toppings = models.ManyToManyField(
+        Topping,
+        verbose_name='Добавка',
+        )
     is_on_main = models.BooleanField(default=False, verbose_name='На главную')
 
     class Meta:
         verbose_name = 'мороженное'
         verbose_name_plural = 'Мороженное'
+
+
+    def __str__(self):
+        return self.title
